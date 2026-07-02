@@ -72,8 +72,8 @@ app.use((err, req, res, next) => {
 
 // ==================== START ====================
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
-  console.log(`📝 Users API: http://localhost:${PORT}/api/users`);
-  console.log(`🚀 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(` Server running on http://localhost:${PORT}`);
+  console.log(` Health check: http://localhost:${PORT}/api/health`);
+  console.log(` Users API: http://localhost:${PORT}/api/users`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
