@@ -1,3 +1,7 @@
+
+// ==================== DATABASE ====================
+require('./src/database/init');
+
 // ==================== SERVER SETUP ====================
 const express = require('express');
 const cors = require('cors');

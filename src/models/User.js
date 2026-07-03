@@ -1,59 +1,63 @@
-// ==================== USER MODEL ====================
-// Simulation d'une base de données en mémoire
-// En production: MongoDB, PostgreSQL, etc.
+// ==================== USER MODEL WITH DATABASE ====================
+const db = require('../database/init');
 
-// Mock data - Données simulées
-let users = [
-  {
-    id: 1,
-    name: 'Anani Zandor',
-    email: 'ananizandor@gmail.com',
-    role: 'admin',
-    createdAt: new Date('2026-01-15')
-  },
-  {
-    id: 2,
-    name: 'Marie Dupont',
-    email: 'marie@example.com',
-    role: 'user',
-    createdAt: new Date('2026-02-20')
-  }
-];
-
-let nextId = 3; // Compteur pour IDs
-
-// ==================== OPERATIONS ====================
 const User = {
-  // GET ALL
-  getAll: () => users,
+  // GET ALL USERS
+  getAll: () => {
+    try {
+      const users = db.prepare('SELECT * FROM users ORDER BY id DESC').all();
+      return users;
+    } catch (error) {
+      throw new Error(`Database error: ${error.message}`);
+    }
+  },
 
-  // GET BY ID
-  getById: (id) => users.find(u => u.id === parseInt(id)),
+  // GET USER BY ID
+  getById: (id) => {
+    try {
+      const user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+      return user || null;
+    } catch (error) {
+      throw new Error(`Database error: ${error.message}`);
+    }
+  },
 
-  // CREATE
+  // CREATE USER
   create: (userData) => {
-    const newUser = {
-      id: nextId++,
-      ...userData,
-      createdAt: new Date()
-    };
-    users.push(newUser);
-    return newUser;
+    try {
+      const stmt = db.prepare(
+        'INSERT INTO users (name, email, role) VALUES (?, ?, ?)'
+      );
+      const result = stmt.run(userData.name, userData.email, userData.role);
+      return User.getById(result.lastInsertRowid);
+    } catch (error) {
+      throw new Error(`Database error: ${error.message}`);
+    }
   },
 
-  // UPDATE
+  // UPDATE USER
   update: (id, userData) => {
-    const user = users.find(u => u.id === parseInt(id));
-    if (!user) return null;
-    Object.assign(user, userData);
-    return user;
+    try {
+      const stmt = db.prepare(
+        'UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?'
+      );
+      stmt.run(userData.name || '', userData.email || '', userData.role || 'user', id);
+      return User.getById(id);
+    } catch (error) {
+      throw new Error(`Database error: ${error.message}`);
+    }
   },
 
-  // DELETE
+  // DELETE USER
   delete: (id) => {
-    const index = users.findIndex(u => u.id === parseInt(id));
-    if (index === -1) return null;
-    return users.splice(index, 1)[0];
+    try {
+      const user = User.getById(id);
+      if (!user) return null;
+      db.prepare('DELETE FROM users WHERE id = ?').run(id);
+      return user;
+    } catch (error) {
+      throw new Error(`Database error: ${error.message}`);
+    }
   }
 };
 
