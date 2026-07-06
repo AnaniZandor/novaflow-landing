@@ -230,6 +230,46 @@ nav {
     align-items: center;
 }
 
+/* ==================== DASHBOARD LINK STYLES ==================== */
+.nav-dashboard {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-mocha);
+    color: white !important;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.nav-dashboard:hover {
+    background: #8E6F5E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(165, 133, 111, 0.3);
+}
+
+body.dark-mode .nav-dashboard {
+    color: white !important;
+}
+
+/* ==================== RESPONSIVE DASHBOARD LINK ==================== */
+@media (max-width: 768px) {
+    .nav-dashboard {
+        display: flex !important;
+        justify-content: center;
+        margin: 0.5rem 2rem;
+        padding: 0.6rem 1rem;
+        background: var(--color-mocha);
+        color: white !important;
+        border-radius: 8px;
+    }
+
+    .nav-dashboard:hover {
+        background: #8E6F5E;
+        transform: none;
+    }
+}
+
 .btn-toggle-dark {
     background: none;
     border: none;
