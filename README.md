@@ -226,7 +226,6 @@ Branche Contenu Statut
 project-4/frontend-integration Intégration complète P1-P4 ✅ Fusionnée dans main
 main Version finale complète ✅ À jour
 
-🔄 Note importante : La branche project-4/frontend-integration a été fusionnée dans main. La branche main contient désormais l'intégralité du projet (Landing Page, API, Dashboard et intégration). Toutes les fonctionnalités des 4 projets sont réunies dans une seule branche opérationnelle.
 
 ---
 
